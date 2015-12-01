@@ -1,0 +1,53 @@
+#######################################
+# Syntax Coloring Map BAGA
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BAGA	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin							KEYWORD2
+readSensors						KEYWORD2
+readTemperatureC				KEYWORD2
+readTemperatureF				KEYWORD2
+readTemperatureK				KEYWORD2
+readHeatIndexC					KEYWORD2
+readHeatIndexF					KEYWORD2
+readHeatIndexK					KEYWORD2
+readAbsHumidity					KEYWORD2
+readRelHumidity					KEYWORD2
+readAbsPressuremBar				KEYWORD2
+readAbsPressureBar				KEYWORD2
+readAbsPressurePa				KEYWORD2
+readAbsPressureKPa				KEYWORD2
+readAbsPressurePsi				KEYWORD2
+readRelPressuremBar				KEYWORD2
+readRelPressureBar				KEYWORD2
+readRelPressurePa				KEYWORD2
+readRelPressureKPa				KEYWORD2
+readRelPressurePsi				KEYWORD2
+readUVIndex						KEYWORD2
+readIRLight						KEYWORD2
+readVisibleLight				KEYWORD2
+readSolarRadiationAdc			KEYWORD2
+readSolarRadiation				KEYWORD2
+readBatteryVoltage				KEYWORD2
+setLedOn						KEYWORD2
+setLedOff						KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+_bagaRelativeHumidity           LITERAL1
+_bagaTemperatureC               LITERAL1
+_bagaPressuremBar               LITERAL1
+_bagaPressurePa                 LITERAL1
+_sensorPressureTemperature      LITERAL1
+_sensorHumidityTemperature      LITERAL1
+_sensorLight                    LITERAL1
+

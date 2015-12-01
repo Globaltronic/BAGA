@@ -1,0 +1,61 @@
+#######################################
+# Syntax Coloring Map BMP280
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BMP280	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin							KEYWORD2
+isEnabled						KEYWORD2
+reset							KEYWORD2
+makeSingleMeasurement			KEYWORD2
+readTemperature					KEYWORD2
+readPressure					KEYWORD2
+calcAltitude					KEYWORD2
+isMeasurementDone				KEYWORD2
+isNVMDataReady					KEYWORD2
+loadCalibrationData				KEYWORD2
+getMode 						KEYWORD2
+setMode 						KEYWORD2
+setTempOversampling 			KEYWORD2
+setPressureOversampling 		KEYWORD2
+getMode 						KEYWORD2
+getMode 						KEYWORD2
+readInt							KEYWORD2
+readUInt						KEYWORD2
+readByte						KEYWORD2
+readByteArray					KEYWORD2
+writeByte						KEYWORD2
+writeByteArray					KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+_isEnabled						LITERAL1
+_dataUpdated		            LITERAL1
+_mode		                    LITERAL1
+_pressureOversampling		    LITERAL1
+_temperatureOversampling		LITERAL1
+_rawTemperature		            LITERAL1
+_rawPressure		            LITERAL1
+_tFine		                    LITERAL1
+_temperature		            LITERAL1
+_pressure		                LITERAL1
+_calibT1		                LITERAL1
+_calibP1		                LITERAL1
+_calibT2		                LITERAL1
+_calibT3		                LITERAL1
+_calibP2		                LITERAL1
+_calibP3		                LITERAL1
+_calibP4		                LITERAL1
+_calibP5		                LITERAL1
+_calibP6		                LITERAL1
+_calibP7		                LITERAL1
+_calibP8		                LITERAL1
+_calibP9		                LITERAL1
+_oversampling		            LITERAL1

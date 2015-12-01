@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring Map Si7020
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Si7020	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin							KEYWORD2
+isEnabled						KEYWORD2
+reset							KEYWORD2
+readRelHumidity					KEYWORD2
+readTemperature					KEYWORD2
+readTemperaturePostHumidity		KEYWORD2
+setHeaterOff					KEYWORD2
+setHeaterOn						KEYWORD2
+setHeaterLevel					KEYWORD2
+setResolution					KEYWORD2
+setHeaterState					KEYWORD2
+readInt							KEYWORD2
+readUInt						KEYWORD2
+readByte						KEYWORD2
+readByteArray					KEYWORD2
+writeByte						KEYWORD2
+writeByteArray					KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+_isEnabled                      LITERAL1
+_rawRelativeHumidity            LITERAL1
+_rawTemperaturePostHumidity     LITERAL1
+_rawTemperature                 LITERAL1
+_heaterLevel                    LITERAL1
