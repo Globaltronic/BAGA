@@ -4,6 +4,7 @@
 #include <BAGA.h>
 #include <SPI.h>
 #include <SdFat.h>
+#include <SWClock.h>
 
 /***
 * BAGA A1
@@ -24,7 +25,13 @@
 BAGA baga; // BAGA instance
 SdFat sd;
 SdFile logFile;
+SdFile configFile;
+SWClock clock;
+char configString[21];
+char clockString[21];
+unsigned long timestamp;
 
+char configFilename[] = "config.txt";
 char logFileName[] = "log.csv";
 unsigned long ID = 0; // Measurements counter
 
@@ -34,7 +41,7 @@ unsigned long ID = 0; // Measurements counter
 char strOpeningSd[27] = "Opening log file..........";
 char strOk[7] = "[ OK ]";
 char strFail[7] = "[FAIL]";
-char strDataString[] = "ID,Temp_C,Temp_Apar_C,Hum_Abs,Hum_Rel,Press_Abs_mBar,Rad_Sol,Vol_Bat";
+char strDataString[] = "Timestamp,Temp_C,Temp_Apar_C,Hum_Abs,Hum_Rel,Press_Abs_mBar,Rad_Sol,Vol_Bat";
 
 int updateIntervalMilliseconds = 5000; // Read data every 5 min
 
@@ -43,6 +50,8 @@ void setup() {
 	byte result;
 	
 	DebugSerial.begin(9600); 
+	
+	//while(!Serial);
 
 	result = baga.begin();
 	if (result)
@@ -55,9 +64,31 @@ void setup() {
 		DebugSerial.println(strOk);
 	}
 
+	
+	
 	if (!sd.begin(BAGA_SDCARD_CS_PIN, SPI_HALF_SPEED)) // Initialize SD card
 	{
 		sd.initErrorHalt();
+	}
+	
+	if (!configFile.open(configFilename, O_READ)) // Open file
+	{
+		//sd.errorHalt("Error opening config file");
+	}
+	else
+	{
+		int data;
+		int count = 0;
+		
+		while(((data = configFile.read()) >= 0) && (count < 21))
+		{
+			configString[count++] = data;
+		}
+		
+		configFile.close();
+		//Serial.println(configString);
+		clock.begin(configString);
+		timestamp = millis();
 	}
 	
 	if (!logFile.open(logFileName, O_RDWR | O_CREAT | O_AT_END)) // Open file
@@ -92,8 +123,21 @@ void loop() {
 	{
 		String dataString = "";
 	
-		dataString += String(ID);
-		dataString += ",";
+		if(clock.isInitialized() == true)
+		{
+			clock.addTime(0,0,0,0,0,(int)((millis()-timestamp)/1000));
+			timestamp = millis();
+			clock.getDateTimeString(clockString);
+			dataString += String(clockString);
+			dataString += ",";
+		}
+		else
+		{
+			dataString += String(millis());
+			dataString += ",";
+		}
+		
+		
 		dataString += String(baga.readTemperatureC());
 		dataString += ",";
 		

@@ -28,6 +28,7 @@
 
 #include <BMP280.h>
 #include <Si7020.h>
+#include <LowPower.h>
 
 //#define 	LIGHT_SENSOR_SI1132
 #define 	LIGHT_SENSOR_PHOTO_TRANSISTOR
@@ -48,7 +49,6 @@
 
 #define		BAGA_SEA_LEVEL_PRESSURE_PA					101325
 #define		BAGA_SEA_LEVEL_PRESSURE_MBAR				1013.25
-
 
 
 class BAGA
@@ -90,7 +90,7 @@ class BAGA
 		unsigned long 	readBatteryVoltage(void);
 		void 			setLedOn(void);	// Turn LED on
 		void 			setLedOff(void); // Turn LED off
-		
+		void			sleep(unsigned long periodMs, adc_t acdState); // Sleep in ms
 	private:
 		float 			_bagaRelativeHumidity; // Relative Humidity in %
 		float			_bagaTemperatureC; // Temperature in Celsius degrees

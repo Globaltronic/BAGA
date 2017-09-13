@@ -6,6 +6,7 @@
 
 /* Include Files */
 #include "BAGA.h"
+#include "LowPower.h"
 
 // Select the desired debug serial port:
 // * Serial (USB-CDC)
@@ -487,4 +488,75 @@ void BAGA::setLedOn(void)
 void BAGA::setLedOff(void)
 {
 	digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+}
+
+void BAGA::sleep(unsigned long periodMs, adc_t acdState)
+{
+	period_t sleepPeriod;
+	
+//#ifdef LowPower_h
+
+	do{
+		if (periodMs > 8000)
+		{
+			sleepPeriod = SLEEP_8S;
+			periodMs -= 8000;
+		}
+		else if (periodMs > 4000)
+		{
+			sleepPeriod = SLEEP_4S;
+			periodMs -= 4000;
+		}
+		else if (periodMs > 2000)
+		{
+			sleepPeriod = SLEEP_2S;
+			periodMs -= 2000;
+		}
+		else if (periodMs > 1000)
+		{
+			sleepPeriod = SLEEP_1S;
+			periodMs -= 1000;
+		}
+		else if (periodMs > 500)
+		{
+			sleepPeriod = SLEEP_500MS;
+			periodMs -= 500;
+		}
+		else if (periodMs > 250)
+		{
+			sleepPeriod = SLEEP_250MS;
+			periodMs -= 250;
+		}
+		else if (periodMs > 120)
+		{
+			sleepPeriod = SLEEP_120MS;
+			periodMs -= 120;
+		}
+		else if (periodMs > 60)
+		{
+			sleepPeriod = SLEEP_60MS;
+			periodMs -= 60;
+		}
+		else if (periodMs > 30)
+		{
+			sleepPeriod = SLEEP_30MS;
+			periodMs -= 30;
+		}
+		else if (periodMs > 15)
+		{
+			sleepPeriod = SLEEP_15MS;
+			periodMs -= 15;
+		}
+		else
+		{
+			periodMs = 0;
+			break; // Delays below 15ms are ignored
+		}
+		
+		LowPower.powerDown(sleepPeriod, acdState, BOD_OFF);
+		
+
+	} while(periodMs > 0);
+
+//#endif	
 }

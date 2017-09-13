@@ -1,9 +1,11 @@
 #include <Wire.h>
 #include <BMP280.h>
 #include <Si7020.h>
+#include <LowPower.h>
 #include <BAGA.h>
 #include <SPI.h>
 #include <SdFat.h>
+#include <SWClock.h>
 
 /***
 * BAGA A1
@@ -24,7 +26,13 @@
 BAGA baga; // BAGA instance
 SdFat sd;
 SdFile logFile;
+SdFile configFile;
+SWClock clock;
+char configString[21];
+char clockString[21];
+unsigned long timestamp;
 
+char configFilename[] = "config.txt";
 char logFileName[] = "log.csv";
 unsigned long ID = 0; // Measurements counter
 
@@ -34,15 +42,20 @@ unsigned long ID = 0; // Measurements counter
 char strOpeningSd[27] = "Opening log file..........";
 char strOk[7] = "[ OK ]";
 char strFail[7] = "[FAIL]";
-char strDataString[] = "ID,Temp_C,Temp_Apar_C,Hum_Abs,Hum_Rel,Press_Abs_mBar,Rad_Sol,Vol_Bat";
+char strDataString[] = "Timestamp,Temp_C,Temp_Apar_C,Hum_Abs,Hum_Rel,Press_Abs_mBar,Rad_Sol,Vol_Bat";
 
-int updateIntervalMilliseconds = 5000; // Read data every 5 min
-
+#define SleepTimeS (30*60)
+          
+          
 void setup() {
 	// put your setup code here, to run once:
 	byte result;
 	
-	DebugSerial.begin(9600); 
+	DebugSerial.begin(9600);
+	//while(!Serial);
+	
+	pinMode(20,OUTPUT);
+	digitalWrite(20,LOW);
 
 	result = baga.begin();
 	if (result)
@@ -60,6 +73,26 @@ void setup() {
 		sd.initErrorHalt();
 	}
 	
+	if (!configFile.open(configFilename, O_READ)) // Open file
+	{
+		//sd.errorHalt("Error opening config file");
+	}
+	else
+	{
+		int data;
+		int count = 0;
+		
+		while(((data = configFile.read()) >= 0) && (count < 21))
+		{
+			configString[count++] = data;
+		}
+		
+		configFile.close();
+		//Serial.println(configString);
+		clock.begin(configString);
+		timestamp = millis();
+	}
+	
 	if (!logFile.open(logFileName, O_RDWR | O_CREAT | O_AT_END)) // Open file
 	{
 		sd.errorHalt("Error opening file");
@@ -72,15 +105,21 @@ void setup() {
 	baga.setLedOn(); // Turn LED on to indicate that a measurement is in progress
 	delay(2000);
 	baga.setLedOff(); // Turn LED off
-	
 }
 
 void loop() {
 	// put your main code here, to run repeatedly:
-		
+	TXLED1;  // Disable TX LED to Save Power
+    RXLED1;	 // Disable RX LED to Save Power
+	
+	digitalWrite(20,HIGH);
+	
 	baga.setLedOn(); // Turn LED on to indicate that a measurement is in progress
 	baga.readSensors(); // This method reads all sensors and saves data in the variables
 	baga.setLedOff(); // Turn LED off
+
+	digitalWrite(20,LOW);
+	
 	
 	if (!logFile.open(logFileName, O_RDWR | O_CREAT | O_AT_END))
 	{
@@ -92,8 +131,21 @@ void loop() {
 	{
 		String dataString = "";
 	
-		dataString += String(ID);
-		dataString += ",";
+		if(clock.isInitialized() == true)
+		{
+			clock.addTime(0,0,0,0,0,(int)((millis()-timestamp)/1000)+SleepTimeS);
+			timestamp = millis();
+			clock.getDateTimeString(clockString);
+			dataString += String(clockString);
+			dataString += ",";
+		}
+		else
+		{
+			dataString += String(millis());
+			dataString += ",";
+		}
+		
+		
 		dataString += String(baga.readTemperatureC());
 		dataString += ",";
 		
@@ -121,5 +173,5 @@ void loop() {
 		DebugSerial.println(dataString); // Print to the serial port	
 	}
   
-	delay(updateIntervalMilliseconds);
+    baga.sleep(SleepTimeS*1000, ADC_OFF);
 }
