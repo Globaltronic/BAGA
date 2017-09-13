@@ -127,12 +127,12 @@ byte BMP280::makeSingleMeasurement(void)
 			}
 			else
 			{
-				Serial1.println("[ERROR]");
+				//Serial1.println("[ERROR]");
 			}
 		}
 		else
 		{
-			Serial1.println("[TIMEOUT]");
+			//Serial1.println("[TIMEOUT]");
 		}
 	}
 
@@ -172,7 +172,7 @@ signed long BMP280::readPressure(void)
 	if (_pressureOversampling == BMP280_PRESS_OVERSAMPLING_OFF)
 	{
 #ifdef DEBUG
-			Serial1.println("Pressure sampling disabled");
+			//Serial1.println("Pressure sampling disabled");
 #endif
 		return 0;
 	}
@@ -236,8 +236,8 @@ bool BMP280::isMeasurementDone(void)
 	
 	if (result == 0)
 	{
-		Serial1.print("Status:");
-		Serial1.println(status);
+		//Serial1.print("Status:");
+		//Serial1.println(status);
 		if((status & BMP280_MEASURING_BIT_MASK) == BMP280_MEASURING_DONE) // Check measurement bit
 		{
 			return true; // Measurement completed
