@@ -6,6 +6,7 @@
 
 /* Include Files */
 #include "BAGA.h"
+#include "LowPower.h"
 
 // Select the desired debug serial port:
 // * Serial (USB-CDC)
@@ -37,8 +38,13 @@ byte BAGA::begin(void)
 	byte resultTemp = 0;
 	
 	pinMode(BAGA_LED_PIN, OUTPUT); // Configure LED pin as output
+    pinMode(BAGA_3V_SHDN_PIN, OUTPUT); // Configure 3V shutdown pin as output
+    pinMode(BAGA_LS_OE, OUTPUT); // Configure level shifter OE control pin as output
+
 	digitalWrite(BAGA_LED_PIN, HIGH);   // Set the LED on	
-	
+	digitalWrite(BAGA_3V_SHDN_PIN, HIGH); // Enable 3V power supply
+    digitalWrite(BAGA_LS_OE, LOW); // Enable level shifter OE
+
 	Wire.begin(); // Configure I2C
 	
 	if (result == 0) // I2C correctly configured
@@ -487,4 +493,122 @@ void BAGA::setLedOn(void)
 void BAGA::setLedOff(void)
 {
 	digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+}
+
+/***
+* Function: blink(void)
+* Description: Blink the LED
+* Params: none
+* Returns: none
+*/
+void BAGA::blink(int times)
+{
+	int i = 0;
+	for (i = 0; i <times; i++)
+	{
+		digitalWrite(BAGA_LED_PIN, HIGH); // Turn LED on
+		delay(200);
+		digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+		delay(200);
+	}
+}
+
+/***
+* Function: blink(void)
+* Description: Blink the LED
+* Params: none
+* Returns: none
+*/
+void BAGA::blinkForever(int times)
+{
+	int i = 0;
+	while(1)
+	{
+		for (i = 0; i <times; i++)
+		{
+			digitalWrite(BAGA_LED_PIN, HIGH); // Turn LED on
+			delay(200);
+			digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+			delay(200);
+		}
+		delay(1000);
+	}
+}
+
+/***
+* Function: sleep(unsigned long periodMs, adc_t acdState)
+* Description: Enter sleep mode (power down)
+* Params: periodMs - period in milliseconds
+*         acdState - ADC state on sleep mode
+* Returns: none
+*/
+void BAGA::sleep(unsigned long periodMs, adc_t acdState)
+{
+	period_t sleepPeriod;
+	
+//#ifdef LowPower_h
+
+	do{
+		if (periodMs > 8000)
+		{
+			sleepPeriod = SLEEP_8S;
+			periodMs -= 8000;
+		}
+		else if (periodMs > 4000)
+		{
+			sleepPeriod = SLEEP_4S;
+			periodMs -= 4000;
+		}
+		else if (periodMs > 2000)
+		{
+			sleepPeriod = SLEEP_2S;
+			periodMs -= 2000;
+		}
+		else if (periodMs > 1000)
+		{
+			sleepPeriod = SLEEP_1S;
+			periodMs -= 1000;
+		}
+		else if (periodMs > 500)
+		{
+			sleepPeriod = SLEEP_500MS;
+			periodMs -= 500;
+		}
+		else if (periodMs > 250)
+		{
+			sleepPeriod = SLEEP_250MS;
+			periodMs -= 250;
+		}
+		else if (periodMs > 120)
+		{
+			sleepPeriod = SLEEP_120MS;
+			periodMs -= 120;
+		}
+		else if (periodMs > 60)
+		{
+			sleepPeriod = SLEEP_60MS;
+			periodMs -= 60;
+		}
+		else if (periodMs > 30)
+		{
+			sleepPeriod = SLEEP_30MS;
+			periodMs -= 30;
+		}
+		else if (periodMs > 15)
+		{
+			sleepPeriod = SLEEP_15MS;
+			periodMs -= 15;
+		}
+		else
+		{
+			periodMs = 0;
+			break; // Delays below 15ms are ignored
+		}
+		
+		LowPower.powerDown(sleepPeriod, acdState, BOD_OFF);
+		
+
+	} while(periodMs > 0);
+
+//#endif	
 }
