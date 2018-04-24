@@ -38,8 +38,13 @@ byte BAGA::begin(void)
 	byte resultTemp = 0;
 	
 	pinMode(BAGA_LED_PIN, OUTPUT); // Configure LED pin as output
+    pinMode(BAGA_3V_SHDN_PIN, OUTPUT); // Configure 3V shutdown pin as output
+    pinMode(BAGA_LS_OE, OUTPUT); // Configure level shifter OE control pin as output
+
 	digitalWrite(BAGA_LED_PIN, HIGH);   // Set the LED on	
-	
+	digitalWrite(BAGA_3V_SHDN_PIN, HIGH); // Enable 3V power supply
+    digitalWrite(BAGA_LS_OE, LOW); // Enable level shifter OE
+
 	Wire.begin(); // Configure I2C
 	
 	if (result == 0) // I2C correctly configured
@@ -490,6 +495,53 @@ void BAGA::setLedOff(void)
 	digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
 }
 
+/***
+* Function: blink(void)
+* Description: Blink the LED
+* Params: none
+* Returns: none
+*/
+void BAGA::blink(int times)
+{
+	int i = 0;
+	for (i = 0; i <times; i++)
+	{
+		digitalWrite(BAGA_LED_PIN, HIGH); // Turn LED on
+		delay(200);
+		digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+		delay(200);
+	}
+}
+
+/***
+* Function: blink(void)
+* Description: Blink the LED
+* Params: none
+* Returns: none
+*/
+void BAGA::blinkForever(int times)
+{
+	int i = 0;
+	while(1)
+	{
+		for (i = 0; i <times; i++)
+		{
+			digitalWrite(BAGA_LED_PIN, HIGH); // Turn LED on
+			delay(200);
+			digitalWrite(BAGA_LED_PIN, LOW); // Turn LED off
+			delay(200);
+		}
+		delay(1000);
+	}
+}
+
+/***
+* Function: sleep(unsigned long periodMs, adc_t acdState)
+* Description: Enter sleep mode (power down)
+* Params: periodMs - period in milliseconds
+*         acdState - ADC state on sleep mode
+* Returns: none
+*/
 void BAGA::sleep(unsigned long periodMs, adc_t acdState)
 {
 	period_t sleepPeriod;

@@ -37,7 +37,9 @@
 #define 	BAGA_BATTERY_VOLTAGE_PIN 					A5
 #define 	BAGA_LED_PIN 								5
 #define 	BAGA_3V_SHDN_PIN 							6
+#define 	BAGA_LS_OE 									7
 #define 	BAGA_SDCARD_CS_PIN							12
+#define		BAGA_DIGITAL_A2								20
 
 #define		BAGA_TEMPERATURE_C_TO_F(x) 					((x * 1.8) + 32)
 #define		BAGA_TEMPERATURE_C_TO_K(x) 					(x + 273.75)
@@ -90,6 +92,8 @@ class BAGA
 		unsigned long 	readBatteryVoltage(void);
 		void 			setLedOn(void);	// Turn LED on
 		void 			setLedOff(void); // Turn LED off
+		void 			blink(int times); // Blink the LED
+		void 			blinkForever(int times); // Blink the LED forever (blocking function)
 		void			sleep(unsigned long periodMs, adc_t acdState); // Sleep in ms
 	private:
 		float 			_bagaRelativeHumidity; // Relative Humidity in %
