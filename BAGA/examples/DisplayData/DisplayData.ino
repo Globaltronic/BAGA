@@ -3,45 +3,61 @@
 #include <Si7020.h>
 #include <BAGA.h>
 
-// Select the desired debug serial port:
-// * Serial (USB-CDC)
-// * Serial1 (J3 connector on board)
+/************************************************************************
+* BAGA A2
+* Data Display Example
+*
+* This example reads data periodically and prints it to the serial port.
+*
+* HW Compatibility:
+* 	Schematic: A2
+*   PCB: A3/A4
+*************************************************************************/
 
+/**********************
+ * BAGA Configuration *
+ **********************/
+
+/* Sensor reading periodicity in seconds */
+unsigned long ReadIntervalS = 5;
+
+/* Sensor reading periodicity in seconds */
+unsigned long SerialBaudRate = 115200;
+
+/* Select the desired debug serial port */
+/* Serial (USB-CDC) or Serial1 (J3 connector on board) */
 #define DebugSerial  	Serial
 
 
+/*************
+ * Variables *
+ *************/
 
-/***
-* BAGA A1
-* Data Display Example
-*
-* This example reads data periodically and prints it to the serial port
-*
-* HW Compatibility: A2
-***/
-
+/* Classes objects */
 BAGA baga; // BAGA instance
 
-int updateIntervalMilliseconds = 5000; // Read data every 5 seconds
-
+/* Strings */
 char strOk[7] = "[ OK ]";
 char strFail[7] = "[FAIL]";
+
+/*********
+ * SETUP *
+ *********/
 
 void setup() {
 	// put your setup code here, to run once:
 	byte result;
 
-	DebugSerial.begin(9600); // Initialize serial port
+	DebugSerial.begin(SerialBaudRate); // Initialize serial port
 	while (!DebugSerial)
 	{
 		; // wait for serial port to connect. Needed for Leonardo only
 	}
 
 	DebugSerial.println("###########   BAGA   ###########");
-	result = baga.begin();
 	DebugSerial.print("Initializing BAGA.........");
   
-	if (result)
+	if (baga.begin())
 	{
 		DebugSerial.println(strFail);
 	}
@@ -50,6 +66,10 @@ void setup() {
 		DebugSerial.println(strOk);
 	}
 }
+
+/*************
+ * MAIN LOOP *
+ *************/
 
 void loop() {
 	// put your main code here, to run repeatedly:
@@ -122,5 +142,5 @@ void loop() {
   
 	DebugSerial.println("________________________________");
   
-	delay(updateIntervalMilliseconds);
+	delay(ReadIntervalS * 1000);
 }
