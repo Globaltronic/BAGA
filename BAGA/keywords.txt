@@ -39,6 +39,8 @@ readSolarRadiation				KEYWORD2
 readBatteryVoltage				KEYWORD2
 setLedOn						KEYWORD2
 setLedOff						KEYWORD2
+blink						    KEYWORD2
+blinkForever					KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
