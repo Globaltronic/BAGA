@@ -4,7 +4,7 @@
 #include <BAGA.h>
 
 /************************************************************************
-* BAGA A2
+* BAGA A3
 * Data Display Example
 *
 * This example reads data periodically and prints it to the serial port.

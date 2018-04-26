@@ -4,20 +4,18 @@
 * Company: Globaltronic SA
 */
 
-
-/***
-* BAGA A1
+/************************************************************************
+* BAGA A3
 *
 * BAGA Board Framework
 *
-* HW Compatibility: A2
-***/
-
+* HW Compatibility:
+* 	Schematic: A2
+*   PCB: A3/A4
+*************************************************************************/
 
 #ifndef BAGA_H
 #define BAGA_H
-
-
 
 /* Include Files */
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -33,7 +31,7 @@
 //#define 	LIGHT_SENSOR_SI1132
 #define 	LIGHT_SENSOR_PHOTO_TRANSISTOR
 
-#define 	BAGA_SOLAR_RADIATION_PIN 					A0
+#define 	BAGA_SOLAR_RADIATION_PIN 					A1
 #define 	BAGA_BATTERY_VOLTAGE_PIN 					A5
 #define 	BAGA_LED_PIN 								5
 #define 	BAGA_3V_SHDN_PIN 							6
@@ -51,7 +49,6 @@
 
 #define		BAGA_SEA_LEVEL_PRESSURE_PA					101325
 #define		BAGA_SEA_LEVEL_PRESSURE_MBAR				1013.25
-
 
 class BAGA
 {
@@ -107,28 +104,5 @@ class BAGA
 		Si1132 _sensorLight;
 #endif
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
