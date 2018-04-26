@@ -6,7 +6,7 @@
 #include <SdFat.h>
 
 /************************************************************************
-* BAGA A2
+* BAGA A3
 * Data Logger Example 
 *
 * This example reads data periodically, saves it to the MicroSD Card and

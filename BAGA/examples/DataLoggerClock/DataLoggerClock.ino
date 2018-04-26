@@ -7,12 +7,15 @@
 #include <SWClock.h>
 
 /************************************************************************
-* BAGA A2
+* BAGA A3
 * Data Logger Clock Example 
 *
 * This example reads data periodically, saves it to the MicroSD Card.
 * The timestamp can be generated from an emulated software clock that
 * uses a configuration file to set the date and time.
+* Use the config.txt file (in this folder) to configure the system.
+* Adjust date, time and sampling period and place the file on the root
+* of the SD card.
 *
 * HW Compatibility:
 * 	Schematic: A2

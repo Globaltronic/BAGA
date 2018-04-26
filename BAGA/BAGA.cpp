@@ -4,6 +4,16 @@
 * Company: Globaltronic SA
 */
 
+/************************************************************************
+* BAGA A3
+*
+* BAGA Board Framework
+*
+* HW Compatibility:
+* 	Schematic: A2
+*   PCB: A3/A4
+*************************************************************************/
+
 /* Include Files */
 #include "BAGA.h"
 #include "LowPower.h"
